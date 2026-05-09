@@ -223,17 +223,17 @@ namespace wuKong {
 
         switch (servoType) {
             case ServoTypeList._180:
-                angle = Math.map(angle, 0, 180, 0, 180)
+                angle = Math.map(Math.clamp(0, 180, angle), 0, 180, 0, 180)
                 break
             case ServoTypeList._270:
-                angle = Math.map(angle, 0, 270, 0, 180)
+                angle = Math.map(Math.clamp(0, 270, angle), 0, 270, 0, 180)
                 break
             case ServoTypeList._360:
-                angle = Math.map(angle, 0, 360, 0, 180)
+                angle = Math.map(Math.clamp(0, 360, angle), 0, 360, 0, 180)
                 break
             case ServoTypeList.GeekServo5KG:
                 // PWM 500~2500μs, Center 1500μs, range 360°
-                angle = Math.map(angle, 0, 360, 0, 180)
+                angle = Math.map(Math.clamp(0, 360, angle), 0, 360, 0, 180)
                 break
         }
 
