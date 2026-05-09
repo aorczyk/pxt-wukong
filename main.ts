@@ -657,17 +657,19 @@ namespace wuKong {
     /*
      * TODO: Setting the speed of a GeekServo 5KG motor in Motor Mode.
      * Motor Mode PWM: Forward 3000~4000μs, Stop 4000μs, Reverse 4000~5000μs
-     * @param servo A servo in the ServoList
-     * @param speed Speed of motor (-100% to 100%)
+     * Connect the motor to a GVS pin (P0, P1, P2, P8, P12, P13, P14, P15),
+     * NOT to S0~S7 servo ports.
+     * @param pin GVS pin connected to the motor signal wire
+     * @param speed Speed of motor (-100% to 100%), 0 = stop
      */
     //% weight=70
-    //% blockId=setGeekServo5KGSpeed block="Set GeekServo 5KG motor %servo speed to %speed\\%"
+    //% blockId=setGeekServo5KGMotorSpeed block="Set GeekServo 5KG motor on pin %pin speed to %speed\\%"
     //% speed.min=-100 speed.max=100
-    export function setGeekServo5KGSpeed(servo: ServoList, speed: number): void {
-        // Motor Mode: Forward 3000~4000μs, Stop 4000μs, Reverse 4000~5000μs
-        // Map -100..100 to 0..360, then setServoAngle maps 0..360 to 0..180
-        speed = Math.map(speed, -100, 100, 0, 360)
-        setServoAngle(ServoTypeList.GeekServo5KG, servo, speed)
+    export function setGeekServo5KGMotorSpeed(pin: AnalogPin, speed: number): void {
+        // Motor Mode: +100% → 3000μs (max forward), 0% → 4000μs (stop), -100% → 5000μs (max reverse)
+        speed = Math.clamp(-100, 100, speed)
+        let pulseUs = Math.map(speed, -100, 100, 5000, 3000)
+        pins.servoSetPulse(pin, pulseUs)
     }
 }
  
