@@ -643,25 +643,31 @@ namespace wuKong {
     
     /*
      * TODO: Setting the speed of a servo motor. 
-     * @param servoType A servo type in the ServoTypeList
      * @param servo A servo in the ServoList 
      * @param speed Speed of servo motor 
      */
     //% weight=71
-    //% blockId=setServoSpeed block="Set %servoType continuous rotation servo %servo speed to %speed\\%"
+    //% blockId=setServoSpeed block="Set continuous rotation servo %servo speed to %speed\\%"
     //% speed.min=-100 speed.max=100
-    export function setServoSpeed(servoType: ServoTypeList, servo: ServoList, speed: number): void {
-        switch (servoType) {
-            case ServoTypeList.GeekServo5KG:
-                // Motor Mode: Forward 3000~4000μs, Stop 4000μs, Reverse 4000~5000μs
-                speed = Math.map(speed, -100, 100, 0, 360)
-                setServoAngle(ServoTypeList.GeekServo5KG, servo, speed)
-                break
-            default:
-                speed = Math.map(speed, -100, 100, 0, 180)
-                setServoAngle(ServoTypeList._180, servo, speed)
-                break
-        }
+    export function setServoSpeed(servo: ServoList, speed: number): void {
+        speed = Math.map(speed, -100, 100, 0, 180)
+        setServoAngle(ServoTypeList._180, servo, speed)
+    }
+
+    /*
+     * TODO: Setting the speed of a GeekServo 5KG motor in Motor Mode.
+     * Motor Mode PWM: Forward 3000~4000μs, Stop 4000μs, Reverse 4000~5000μs
+     * @param servo A servo in the ServoList
+     * @param speed Speed of motor (-100% to 100%)
+     */
+    //% weight=70
+    //% blockId=setGeekServo5KGSpeed block="Set GeekServo 5KG motor %servo speed to %speed\\%"
+    //% speed.min=-100 speed.max=100
+    export function setGeekServo5KGSpeed(servo: ServoList, speed: number): void {
+        // Motor Mode: Forward 3000~4000μs, Stop 4000μs, Reverse 4000~5000μs
+        // Map -100..100 to 0..360, then setServoAngle maps 0..360 to 0..180
+        speed = Math.map(speed, -100, 100, 0, 360)
+        setServoAngle(ServoTypeList.GeekServo5KG, servo, speed)
     }
 }
  
