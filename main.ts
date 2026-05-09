@@ -223,17 +223,17 @@ namespace wuKong {
 
         switch (servoType) {
             case ServoTypeList._180:
-                angle = Math.map(Math.clamp(0, 180, angle), 0, 180, 0, 180)
+                angle = Math.map(angle, 0, 180, 0, 180)
                 break
             case ServoTypeList._270:
-                angle = Math.map(Math.clamp(0, 270, angle), 0, 270, 0, 180)
+                angle = Math.map(angle, 0, 270, 0, 180)
                 break
             case ServoTypeList._360:
-                angle = Math.map(Math.clamp(0, 360, angle), 0, 360, 0, 180)
+                angle = Math.map(angle, 0, 360, 0, 180)
                 break
             case ServoTypeList.GeekServo5KG:
                 // PWM 500~2500μs, Center 1500μs, range 360°
-                angle = Math.map(Math.clamp(0, 360, angle), 0, 360, 0, 180)
+                angle = Math.map(angle, 0, 360, 0, 180)
                 break
         }
 
@@ -643,15 +643,25 @@ namespace wuKong {
     
     /*
      * TODO: Setting the speed of a servo motor. 
+     * @param servoType A servo type in the ServoTypeList
      * @param servo A servo in the ServoList 
-     * @param angle Angle of servo motor 
+     * @param speed Speed of servo motor 
      */
     //% weight=71
-    //% blockId=setServoSpeed block="Set continuous rotation servo %servo speed to %speed\\%"
+    //% blockId=setServoSpeed block="Set %servoType continuous rotation servo %servo speed to %speed\\%"
     //% speed.min=-100 speed.max=100
-    export function setServoSpeed(servo: ServoList, speed: number): void {
-        speed = Math.map(speed, -100, 100, 0, 180)
-        setServoAngle(ServoTypeList._180, servo, speed)
+    export function setServoSpeed(servoType: ServoTypeList, servo: ServoList, speed: number): void {
+        switch (servoType) {
+            case ServoTypeList.GeekServo5KG:
+                // Motor Mode: Forward 3000~4000μs, Stop 4000μs, Reverse 4000~5000μs
+                speed = Math.map(speed, -100, 100, 0, 360)
+                setServoAngle(ServoTypeList.GeekServo5KG, servo, speed)
+                break
+            default:
+                speed = Math.map(speed, -100, 100, 0, 180)
+                setServoAngle(ServoTypeList._180, servo, speed)
+                break
+        }
     }
 }
  
