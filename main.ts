@@ -58,6 +58,26 @@ namespace wuKong {
     }
 
     /**
+    * GVSPinList - available GVS pins on WuKong (P0 excluded - used by buzzer)
+    */
+    export enum GVSPinList {
+        //% block="P1"
+        P1 = AnalogPin.P1,
+        //% block="P2"
+        P2 = AnalogPin.P2,
+        //% block="P8"
+        P8 = AnalogPin.P8,
+        //% block="P12"
+        P12 = AnalogPin.P12,
+        //% block="P13"
+        P13 = AnalogPin.P13,
+        //% block="P14"
+        P14 = AnalogPin.P14,
+        //% block="P15"
+        P15 = AnalogPin.P15
+    }
+
+    /**
      * TODO: Set the on-board LED display mode. 
      * @param mode breath or off 
      */
@@ -665,7 +685,7 @@ namespace wuKong {
     //% weight=70
     //% blockId=setGeekServo5KGMotorSpeed block="Set GeekServo 5KG motor on pin %pin speed to %speed\\%"
     //% speed.min=-100 speed.max=100
-    export function setGeekServo5KGMotorSpeed(pin: AnalogPin, speed: number): void {
+    export function setGeekServo5KGMotorSpeed(pin: GVSPinList, speed: number): void {
         // Motor Mode: +100% → 3000μs (max forward), 0% → 4000μs (stop), -100% → 5000μs (max reverse)
         speed = Math.clamp(-100, 100, speed)
         let pulseUs = Math.map(speed, -100, 100, 5000, 3000)
