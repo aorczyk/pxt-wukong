@@ -52,7 +52,9 @@ namespace wuKong {
         //% block="270°"
         _270,
         //% block="360°" 
-        _360
+        _360,
+        //% block="GeekServo 5KG"
+        GeekServo5KG
     }
 
     /**
@@ -227,6 +229,10 @@ namespace wuKong {
                 angle = Math.map(angle, 0, 270, 0, 180)
                 break
             case ServoTypeList._360:
+                angle = Math.map(angle, 0, 360, 0, 180)
+                break
+            case ServoTypeList.GeekServo5KG:
+                // PWM 500~2500μs, Center 1500μs, range 360°
                 angle = Math.map(angle, 0, 360, 0, 180)
                 break
         }
