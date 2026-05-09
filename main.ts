@@ -677,7 +677,7 @@ namespace wuKong {
     /*
      * TODO: Setting the speed of a GeekServo 5KG motor in Motor Mode.
      * Motor Mode PWM: Forward 3000~4000μs, Stop 4000μs, Reverse 4000~5000μs
-     * Connect the motor to a GVS pin (P0, P1, P2, P8, P12, P13, P14, P15),
+     * Connect the motor to a GVS pin (P1, P2, P8, P12, P13, P14, P15),
      * NOT to S0~S7 servo ports.
      * @param pin GVS pin connected to the motor signal wire
      * @param speed Speed of motor (-100% to 100%), 0 = stop
